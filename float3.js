@@ -113,13 +113,13 @@ export class Float3 {
 		this.z += z;
 		return this;
 	}
-	addWeighted(s: number, v: Float3): Float3 {
+	addScaled(s: number, v: Float3): Float3 {
 		this.x += v.x * s;
 		this.y += v.y * s;
 		this.z += v.z * s;
 		return this;
 	}
-	addMultiply(s: Float3, v: Float3): Float3 {
+	addMultiplied(s: Float3, v: Float3): Float3 {
 		this.x += v.x * s.x;
 		this.y += v.y * s.y;
 		this.z += v.z * s.z;
@@ -249,6 +249,21 @@ export class Float3 {
 	volume() : number{
 		return this.x * this.y * this.z
 	}
+	cross(b: Float3): Float3 {
+		const a = this;
+		this.x = (a.y*b.z) - (a.z*b.y);
+		this.y = (a.z*b.x) - (a.x*b.z);
+		this.z = (a.x*b.y) - (a.y*b.x);
+		return this;
+	}
+	angle(b: Float3): number {
+		const a = this;
+		a.assertUnit()
+		b.assertUnit()
+		const d = Float3.dot(a,b)
+		return Math.acos(d)//acos returns between 0 and PI		
+	}
+
 	isOk() : boolean {
 		return !isNaN(this.x) && !isNaN(this.y) && !isNaN(this.z)
 	}
@@ -288,20 +303,6 @@ export class Float3 {
 	assertIntegers() : Float3 {
 		if(!this.isIntegers()) throw new Error(`not integers ${this}`)
 		return this
-	}
-	cross(b: Float3): Float3 {
-		const a = this;
-		this.x = (a.y*b.z) - (a.z*b.y);
-		this.y = (a.z*b.x) - (a.x*b.z);
-		this.z = (a.x*b.y) - (a.y*b.x);
-		return this;
-	}
-	angle(b: Float3): number {
-		const a = this;
-		a.assertUnit()
-		b.assertUnit()
-		const d = Float3.dot(a,b)
-		return Math.acos(d)//acos returns between 0 and PI		
 	}
 }
 
