@@ -16,10 +16,10 @@ export class Float3 {
 		this.z = z;
 	}
 
-	static as(json): Float3 {
+	static as(json: {x: number, y: number, z: number}): Float3 {
 		return Float3.fromJson(json)
 	}
-	static fromJson(json): Float3 {
+	static fromJson(json: {x: number, y: number, z: number}): Float3 {
 		assertNumber(json.x)
 		assertNumber(json.y)
 		assertNumber(json.z)
@@ -44,13 +44,13 @@ export class Float3 {
 	}
 
 
-	static magFlat(x:number,y:number,z:number) : number {
+	static magFlat(x: number, y: number, z: number) : number {
 		return Math.sqrt((x*x) + (y*y) + (z*z));
 	}
 	static magFlatSquared(x: number, y: number, z: number): number {
 		return (x * x) + (y * y) + (z * z);
 	}
-	static distance(a : Float3, b : Float3) : number{
+	static distance(a: Float3, b: Float3) : number{
 		const dx = a.x - b.x;
 		const dy = a.y - b.y;
 		const dz = a.z - b.z;
@@ -291,7 +291,7 @@ export class Float3 {
 		return this
 	}
 	isUnit(): boolean {
-		return Math.abs(1 - this.mag()) < .0001;
+		return Math.abs(1 - this.mag()) < Epsilon;
 	}
 	isIntegers(): boolean {
 		return this.x === (this.x|0) && this.y === (this.y|0) && this.z === (this.z|0);
