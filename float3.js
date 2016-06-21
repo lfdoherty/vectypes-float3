@@ -9,47 +9,49 @@ function assertNumber(n) : number {
 
 const Epsilon = Number.EPSILON
 
+
+export function vec(x: number, y: number, z: number): Float3 {
+	return new Float3(x, y, z)
+}
+export function as(json: {x: number, y: number, z: number}): Float3 {
+	return Float3.fromJson(json)
+}
+export function fromJson(json: {x: number, y: number, z: number}): Float3 {
+	assertNumber(json.x)
+	assertNumber(json.y)
+	assertNumber(json.z)
+	return new Float3(json.x, json.y, json.z);
+}
+export function one() : Float3 {
+	return new Float3(1,1,1)
+}
+export function zero() : Float3 {
+	return new Float3(0,0,0)
+}
+export function magFlat(x: number, y: number, z: number) : number {
+	return Math.sqrt((x*x) + (y*y) + (z*z));
+}
+export function magFlatSquared(x: number, y: number, z: number): number {
+	return (x * x) + (y * y) + (z * z);
+}
+export function distance(a: Float3, b: Float3) : number{
+	const dx = a.x - b.x;
+	const dy = a.y - b.y;
+	const dz = a.z - b.z;
+	return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+}
+export function distanceSquared(a: Float3, b: Float3): number {
+	const dx = a.x - b.x;
+	const dy = a.y - b.y;
+	const dz = a.z - b.z;
+	return (dx * dx) + (dy * dy) + (dz * dz);
+}
+
 export class Float3 {
 	constructor(x: number, y: number, z: number){
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
-
-	static as(json: {x: number, y: number, z: number}): Float3 {
-		return Float3.fromJson(json)
-	}
-	static fromJson(json: {x: number, y: number, z: number}): Float3 {
-		assertNumber(json.x)
-		assertNumber(json.y)
-		assertNumber(json.z)
-		return new Float3(json.x, json.y, json.z);
-	}
-	static one() : Float3 {
-		return new Float3(1,1,1)
-	}
-	static zero() : Float3 {
-		return new Float3(0,0,0)
-	}
-
-
-	static magFlat(x: number, y: number, z: number) : number {
-		return Math.sqrt((x*x) + (y*y) + (z*z));
-	}
-	static magFlatSquared(x: number, y: number, z: number): number {
-		return (x * x) + (y * y) + (z * z);
-	}
-	static distance(a: Float3, b: Float3) : number{
-		const dx = a.x - b.x;
-		const dy = a.y - b.y;
-		const dz = a.z - b.z;
-		return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
-	}
-	static distanceSquared(a: Float3, b: Float3): number {
-		const dx = a.x - b.x;
-		const dy = a.y - b.y;
-		const dz = a.z - b.z;
-		return (dx * dx) + (dy * dy) + (dz * dz);
 	}
 
 
