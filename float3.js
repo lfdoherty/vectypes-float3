@@ -31,17 +31,6 @@ export class Float3 {
 	static zero() : Float3 {
 		return new Float3(0,0,0)
 	}
-	/**Uniformly distributed on the unit sphere's surface. Produces unit vectors.*/
-	static randomUnit() : Float3 {
-		const xa = Math.random()*Math.PI*2
-		const ya = Math.random()*Math.PI*2
-
-		const sxa = Math.sin(xa)
-		const x = sxa * Math.cos(ya)
-		const y = sxa * Math.sin(ya)
-		const z = Math.cos(xa)
-		return new Float3(x,y,z)
-	}
 
 
 	static magFlat(x: number, y: number, z: number) : number {
