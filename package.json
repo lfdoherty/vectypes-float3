@@ -7,6 +7,7 @@
   "scripts": {
     "prepublish": "browserify . -o float3_dist.js"
   },
+  "license": "MIT",
   "browser": "float3",
   "main": "float3_dist",
   "browserify": {
