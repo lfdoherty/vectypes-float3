@@ -9,14 +9,16 @@ function assertNumber(n) : number {
 
 const Epsilon = Number.EPSILON
 
+export interface Duck {x: number, y: number, z: number}
+export const T = Float3;
 
 export function vec(x: number, y: number, z: number): Float3 {
 	return new Float3(x, y, z)
 }
-export function as(json: {x: number, y: number, z: number}): Float3 {
+export function as(json: Duck): Float3 {
 	return Float3.fromJson(json)
 }
-export function fromJson(json: {x: number, y: number, z: number}): Float3 {
+export function fromJson(json: Duck): Float3 {
 	assertNumber(json.x)
 	assertNumber(json.y)
 	assertNumber(json.z)
@@ -28,19 +30,22 @@ export function one() : Float3 {
 export function zero() : Float3 {
 	return new Float3(0,0,0)
 }
+export function dot(a: Duck, b: Duck) : number {
+	return (a.x*b.x) + (a.y*b.y) + (a.z*b.z);
+}
 export function magFlat(x: number, y: number, z: number) : number {
 	return Math.sqrt((x*x) + (y*y) + (z*z));
 }
 export function magFlatSquared(x: number, y: number, z: number): number {
 	return (x * x) + (y * y) + (z * z);
 }
-export function distance(a: Float3, b: Float3) : number{
+export function distance(a: Duck, b: Duck) : number{
 	const dx = a.x - b.x;
 	const dy = a.y - b.y;
 	const dz = a.z - b.z;
 	return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
 }
-export function distanceSquared(a: Float3, b: Float3): number {
+export function distanceSquared(a: Duck, b: Duck): number {
 	const dx = a.x - b.x;
 	const dy = a.y - b.y;
 	const dz = a.z - b.z;
@@ -55,7 +60,7 @@ export class Float3 {
 	}
 
 
-	set(v: Float3) : Float3 {
+	set(v: Duck) : Float3 {
 		this.x = v.x
 		this.y = v.y
 		this.z = v.z
@@ -85,25 +90,25 @@ export class Float3 {
 		return [this.x, this.y, this.z]
 	}
 	mag() : number {
-		return Float3.magFlat(this.x,this.y,this.z)
+		return magFlat(this.x,this.y,this.z)
 	}
 	magSquared(): number {
-		return Float3.magFlatSquared(this.x, this.y, this.z)
+		return magFlatSquared(this.x, this.y, this.z)
 	}
 
 	dot(v): number {
-		return Float3.dot(this,v)
+		return dot(this,v)
 	}
-	distance(v: Float3): number {
-		return Float3.distance(this, v);
+	distance(v: Duck): number {
+		return distance(this, v);
 	}
-	distanceSquared(v: Float3): number {
-		return Float3.distanceSquared(this, v);
+	distanceSquared(v: Duck): number {
+		return distanceSquared(this, v);
 	}
-	equals(v) : boolean {
+	equals(v: Duck) : boolean {
 		return (Math.abs(v.x - this.x) < Epsilon) && (Math.abs(v.y - this.y) < Epsilon) && (Math.abs(v.z - this.z) < Epsilon);
 	}
-	add(v) : Float3 {
+	add(v: Duck) : Float3 {
 		this.x += v.x;
 		this.y += v.y;
 		this.z += v.z;
@@ -115,13 +120,13 @@ export class Float3 {
 		this.z += z;
 		return this;
 	}
-	addScaled(s: number, v: Float3): Float3 {
+	addScaled(s: number, v: Duck): Float3 {
 		this.x += v.x * s;
 		this.y += v.y * s;
 		this.z += v.z * s;
 		return this;
 	}
-	addMultiplied(s: Float3, v: Float3): Float3 {
+	addMultiplied(s: Duck, v: Duck): Float3 {
 		this.x += v.x * s.x;
 		this.y += v.y * s.y;
 		this.z += v.z * s.z;
@@ -151,7 +156,7 @@ export class Float3 {
 		this.z = v;
 		return this;
 	}
-	sub(v: Float3): Float3 {
+	sub(v: Duck): Float3 {
 		this.x -= v.x
 		this.y -= v.y
 		this.z -= v.z
@@ -175,13 +180,13 @@ export class Float3 {
 		this.z = Math.abs(this.z)
 		return this
 	}
-	divide(v: Float3): Float3 {
+	divide(v: Duck): Float3 {
 		this.x /= v.x
 		this.y /= v.y
 		this.z /= v.z
 		return this
 	}
-	multiply(v : Float3) : Float3 {
+	multiply(v : Duck) : Float3 {
 		this.x *= v.x
 		this.y *= v.y
 		this.z *= v.z
@@ -205,13 +210,13 @@ export class Float3 {
 		this.z *= sf
 		return this
 	}
-	min(v : Float3) : Float3 {
+	min(v : Duck) : Float3 {
 		this.x = Math.min(this.x, v.x)
 		this.y = Math.min(this.y, v.y)
 		this.z = Math.min(this.z, v.z)
 		return this
 	}
-	max(v : Float3) : Float3 {
+	max(v : Duck) : Float3 {
 		this.x = Math.max(this.x, v.x)
 		this.y = Math.max(this.y, v.y)
 		this.z = Math.max(this.z, v.z)
@@ -251,18 +256,18 @@ export class Float3 {
 	volume() : number{
 		return this.x * this.y * this.z
 	}
-	cross(b: Float3): Float3 {
+	cross(b: Duck): Float3 {
 		const a = this;
 		this.x = (a.y*b.z) - (a.z*b.y);
 		this.y = (a.z*b.x) - (a.x*b.z);
 		this.z = (a.x*b.y) - (a.y*b.x);
 		return this;
 	}
-	angle(b: Float3): number {
+	angle(b: Duck): number {
 		const a = this;
 		a.assertUnit()
 		b.assertUnit()
-		const d = Float3.dot(a,b)
+		const d = dot(a,b)
 		return Math.acos(d)//acos returns between 0 and PI		
 	}
 
@@ -277,14 +282,14 @@ export class Float3 {
 		if(this.isZero()) throw new Error(`is zero ${this}`)
 		return this
 	}
-	assertLessThan(p : Float3) : Float3 {
+	assertLessThan(p : Duck) : Float3 {
 		if(!this.isLessThan(p)) throw new Error(`not less than ${this} !< ${p}`)
 		return this
 	}
-	isLessThan(p : Float3) : boolean {
+	isLessThan(p : Duck) : boolean {
 		return this.x < p.x && this.y < p.y && this.z < p.z
 	}
-	isGreaterThan(p : Float3) : boolean {
+	isGreaterThan(p : Duck) : boolean {
 		return this.x > p.x && this.y > p.y && this.z > p.z
 	}
 	assertPositive() : Float3 {
