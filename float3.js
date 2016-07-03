@@ -18,6 +18,10 @@ export function vec(x: number, y: number, z: number): Float3 {
 export function as(json: Duck): Float3 {
 	return Float3.fromJson(json)
 }
+export function is(json: Duck) : boolean {
+	return isNumber(json.x) && isNumber(json.y) && isNumber(json.z)
+}
+
 export function fromJson(json: Duck): Float3 {
 	assertNumber(json.x)
 	assertNumber(json.y)
