@@ -21,6 +21,9 @@ export function as(json: Duck): Float3 {
 export function is(json: Duck) : boolean {
 	return isNumber(json.x) && isNumber(json.y) && isNumber(json.z)
 }
+export function copy(json: Duck): Float3 {
+	return fromJson(json)
+}
 
 export function fromJson(json: Duck): Float3 {
 	assertNumber(json.x)
