@@ -24,6 +24,12 @@ export function is(json: Duck) : boolean {
 export function copy(json: Duck): Float3 {
 	return fromJson(json)
 }
+export function fromArray(arr: number[]): Float3 {
+	if(arr.length !== 3){
+		throw new Error(`array is the wrong length: ${arr}, should be 3`)
+	}
+	return new Float3(arr[0], arr[1], arr[2])
+}
 
 export function fromJson(json: Duck): Float3 {
 	assertNumber(json.x)
@@ -282,15 +288,21 @@ export class Float3 {
 		return !isNaN(this.x) && !isNaN(this.y) && !isNaN(this.z)
 	}
 	assertOk() : Float3 {
-		if(!this.isOk()) throw new Error(`not OK ${this}`)
+		if(!this.isOk()){
+			throw new Error(`not OK ${this}`)
+		}
 		return this
 	}
 	assertNotZero() : Float3 {
-		if(this.isZero()) throw new Error(`is zero ${this}`)
+		if(this.isZero()){
+			throw new Error(`is zero ${this}`)
+		}
 		return this
 	}
 	assertLessThan(p : Duck) : Float3 {
-		if(!this.isLessThan(p)) throw new Error(`not less than ${this} !< ${p}`)
+		if(!this.isLessThan(p)){
+			throw new Error(`not less than ${this} !< ${p}`)
+		}
 		return this
 	}
 	isLessThan(p : Duck) : boolean {
